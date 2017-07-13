@@ -62,7 +62,7 @@ Add new project to Coa by running `coa add [path_to_project_config.yml]`.
 name: searx
 checkers:
     - name: Pep8
-      paths: [searx/*py, searx/**py]
+      paths: [searx/*py, searx/*/*py]
       command: ./manage.sh pep8_check
 
     - name: Babel
