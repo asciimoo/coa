@@ -44,7 +44,7 @@ func Listen(c *config.Config) {
 			http.Error(w, "Cannot load configuration: "+err.Error(), http.StatusBadRequest)
 			return
 		}
-		if c.Notifiers == nil {
+		if c2.Notifiers == nil {
 			http.Error(w, "Configuration error! Please specify at least one notification backend in your Coa settings", http.StatusBadRequest)
 			return
 		}
@@ -111,7 +111,7 @@ func Call(u string, params map[string]string) error {
 	}
 
 	if resp.StatusCode != 200 {
-		return errors.New("Error received from server: "+string(body))
+		return errors.New("Error received from server: " + string(body))
 	}
 
 	return nil
