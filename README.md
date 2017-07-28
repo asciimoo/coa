@@ -4,7 +4,7 @@ The coding assistant.
 
 Coa is a local CI tool which can be easily integrated
 to any project to automatically act on code changes.
-With Coa you can easily run automated code linters, build tools,
+With Coa you can run automated code linters, build tools,
 tests or any custom project related scripts when your code changes.
 
 ![Coa screencast](docs/images/screencast.gif)

@@ -27,9 +27,13 @@ func Listen(c *config.Config) {
 			http.Error(w, "Missing path", http.StatusBadRequest)
 			return
 		}
-		cwd := r.URL.Query()["cwd"][0]
 
-		p, err := c.AddProject(filepath.Join(cwd, path))
+		if !strings.HasPrefix(path, "/") {
+			cwd := r.URL.Query()["cwd"][0]
+			path = filepath.Join(cwd, path)
+		}
+
+		p, err := c.AddProject(path)
 		if err != nil {
 			http.Error(w, "Cannot add project: "+err.Error(), http.StatusBadRequest)
 			return

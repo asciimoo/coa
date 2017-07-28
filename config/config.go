@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-    "path/filepath"
+	"path/filepath"
 
 	"github.com/asciimoo/coa/notification"
 	"github.com/asciimoo/coa/project"
@@ -19,11 +19,11 @@ const SettingsFileName = "settings.yml"
 const ProjectListFileName = "project.list"
 
 type Config struct {
-	initialized bool
-	ConfigFolder string
-	Projects    []*project.Project
+	initialized   bool
+	ConfigFolder  string
+	Projects      []*project.Project
 	ServerAddress string
-	Notifiers []*notification.NotifierBackend
+	Notifiers     []*notification.NotifierBackend
 }
 
 func countChar(s []byte, c byte) int {
@@ -43,7 +43,9 @@ func (c *Config) Init(configFolder string) error {
 
 	_, err := os.Stat(configFolder)
 	if err != nil {
-		return errors.New(fmt.Sprintf("Config directory (%v) not found.", configFolder))
+		if err := os.MkdirAll(configFolder, os.ModePerm); err != nil {
+			return errors.New(fmt.Sprintf("Config directory (%v) not found and cannot be created (%v).", configFolder, err.Error()))
+		}
 	}
 
 	settingsFilePath := path.Join(configFolder, SettingsFileName)
@@ -99,7 +101,7 @@ func (c *Config) AddProject(projectSettingsPath string) (*project.Project, error
 		}
 	}
 
-	projectSettingsPath, err :=  filepath.Abs(projectSettingsPath)
+	projectSettingsPath, err := filepath.Abs(projectSettingsPath)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +117,7 @@ func (c *Config) AddProject(projectSettingsPath string) (*project.Project, error
 	}
 
 	projectListFilePath := path.Join(c.ConfigFolder, ProjectListFileName)
-    projectFile, err := os.OpenFile(projectListFilePath, os.O_RDWR|os.O_APPEND, 0600);
+	projectFile, err := os.OpenFile(projectListFilePath, os.O_RDWR|os.O_APPEND, 0600)
 	if err != nil {
 		return nil, err
 	}
